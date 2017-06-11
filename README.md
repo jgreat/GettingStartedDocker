@@ -356,14 +356,57 @@ docker push jgreat/getting-started
 ```
 
 ## Local Development with Docker
+A little bit out of date, but this blog goes over the basics
+https://blog.docker.com/2016/07/live-debugging-docker/
 
-### PostgreSQL Database containter
-Most applications need a database, lets start up a Postgres container.
+### Docker Compose
+Docker Compose is a way to specify and configure a group of services. Each service may run one or more containers. 
 
-You can find information on this container and many other Offical and Community containers on [https://hub.docker.com](https://hub.docker.com)
+docker-compose.yaml
+```yaml
+version: "2"
 
-### NodeJS container
+services:
+  web:
+    build: .
+    command: nodemon -L --watch src --inspect=0.0.0.0:5858
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+      - "5858:5858"
+    environment:
+      DB_HOSTNAME: db
+      DB_USERNAME: demo
+      DB_PASSWORD: demo
+      DB_DATABASE: demo
+    depends_on:
+      - db
+
+  db:
+    image: postgres:9.6.3-alpine
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+```
+
+### Start up your application stack
+```
+docker-compose up
+```
 
 ### Develop Live
 
 
+
+### Resources and Reading
+
+https://hub.docker.com
+https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/
+https://12factor.net/

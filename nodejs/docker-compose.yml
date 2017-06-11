@@ -1,0 +1,31 @@
+version: "2"
+
+services:
+  web:
+    build: .
+    command: nodemon -L --watch src --inspect=0.0.0.0:5858
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+      - "5858:5858"
+    environment:
+      DB_HOSTNAME: db
+      DB_USERNAME: demo
+      DB_PASSWORD: demo
+      DB_DATABASE: demo
+    depends_on:
+      - db
+
+  db:
+    image: postgres:9.6.3-alpine
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d
+
+volumes:
+  pgdata:
