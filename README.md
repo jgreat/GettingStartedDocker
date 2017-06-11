@@ -14,7 +14,7 @@ If you are running OSX or Windows: Turn on your shared drives
 Settings -> Shared Drives
 
 
-## Basic Containers
+## Container Basics
 
 ### First Container
 ```
@@ -28,8 +28,8 @@ Status: Downloaded newer image for busybox:latest
 / #
 ```
 * `run` downloads image if doesn't exist, creates and starts the container
-* `-i` interactive
-* `-t` tty
+* `-i` interactive (keep stdin open)
+* `-t` alocate a tty
 * `busybox` the name of the image
 * `sh` command to run
 
@@ -285,23 +285,24 @@ docker run -d -p 127.0.0.1:80:80 --name web nginx
 
 Connect with your browser to [http://127.0.0.1](http://127.0.0.1). You should see the default nginx page.
 
+**Clean Up**
 Remove the running container using the name we provided
 ```
 docker rm -f web
 ```
 
 ## Volumes
-Sometimes you need to modify a container from what it provides by default. One way to do this is to share a file or directory between your host and the container. 
+Sometimes you need to modify a container from what it provides by default. One way to do this is to share a file or directory between your host and the container.
 
 Lets add our custom index.html file with a shared volume.
 
 Docker requires a Fully Qualified Path when specifying your volume. Your `-v` option is going to vary from mine.
 
 ```
-docker run -d -p 127.0.0.1:80:80 -v c:/Users/jgreat/git/GettingStartedDocker/nginx:/usr/share/nginx/html --name web nginx
+docker run -d -p 127.0.0.1:80:80 -v c:/Users/jgreat/git/GettingStartedDocker/nginx/html:/usr/share/nginx/html --name web nginx
 ```
-* `-v c:/Users/jgreat/git/GettingStartedDocker/nginx:/usr/share/nginx/html`
-    * `local/host/file:container/destination`
+* `-v c:/Users/jgreat/git/GettingStartedDocker/nginx/html:/usr/share/nginx/html`
+    * `/localhost/file:/container/destination`
 
 Connect with your browser to [http://127.0.0.1](http://127.0.0.1). You should see the new page.
 
@@ -309,6 +310,60 @@ Connect with your browser to [http://127.0.0.1](http://127.0.0.1). You should se
 * Did you turn on Shared Volumes in the Docker-For-... Settings?
 * Did you use the correct path?
 
+**Clean Up**
+Remove the running container using the name we provided
+```
+docker rm -f web
+```
+
+## Build
+
+### Build an Image
+Lets make our own image based off the nginx container and include our index.html 
+```
+cd nginx
+
+docker build -t jgreat/getting-started:latest .
+```
+* `-t jgreat/getting-started:latest` the image tag including user and repo name 
+
+### Run the Image
+```
+docker run -it --rm -p 127.0.0.1:80:80 jgreat/getting-started:latest
+```
+* `--rm` will delete the continer after you exit.
+
+Connect with your browser to [http://127.0.0.1](http://127.0.0.1). You should see the new page.
+
+### Tag the Image
+We can apply tags to your new docker contaner. Many tags can point to the same image.
+
+```
+docker tag jgreat/getting-started:latest jgreat/getting-started:0.0.1-nginx
+```
+
+### Push the Image
+Push the image up to docker hub for deployment or sharing.
+
+Login to docker hub
+```
+docker login
+```
+
+If you don't specify a tag, all the tags will be pushed up.
+```
+docker push jgreat/getting-started
+```
+
+## Local Development with Docker
 
 ### PostgreSQL Database containter
-Lets do something a little more usefull
+Most applications need a database, lets start up a Postgres container.
+
+You can find information on this container and many other Offical and Community containers on [https://hub.docker.com](https://hub.docker.com)
+
+### NodeJS container
+
+### Develop Live
+
+
