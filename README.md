@@ -362,51 +362,38 @@ https://blog.docker.com/2016/07/live-debugging-docker/
 ### Docker Compose
 Docker Compose is a way to specify and configure a group of services. Each service may run one or more containers. 
 
-docker-compose.yaml
-```yaml
-version: "2"
+Lets check out `nodejs/docker-compose.yaml`
 
-services:
-  web:
-    build: .
-    command: nodemon -L --watch src --inspect=0.0.0.0:5858
-    volumes:
-      - .:/app
-    ports:
-      - "8000:8000"
-      - "5858:5858"
-    environment:
-      DB_HOSTNAME: db
-      DB_USERNAME: demo
-      DB_PASSWORD: demo
-      DB_DATABASE: demo
-    depends_on:
-      - db
+### Develop Live
+Walk thorough of setting up the containers, database, volumes.
 
-  db:
-    image: postgres:9.6.3-alpine
-    environment:
-      POSTGRES_USER: demo
-      POSTGRES_PASSWORD: demo
-      POSTGRES_DB: demo
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+* Sharing the code directory with the web stack
+* Environment Variables
+* .dockerignore
+* Dockerfile
+* .vscode/launch.json
+* nodemon
 
-volumes:
-  pgdata:
-```
-
-### Start up your application stack
+**Start up your application stack**
 ```
 docker-compose up
 ```
 
-### Develop Live
+**Connect the debuger**
+VSCode Debuger
 
+**Modify Code**
+Watch nodemon pick up changes and restart.
 
+### Destroy your application stack
+Stop containers, remove volumes and local images.
 
-### Resources and Reading
+```
+docker-compose stop -v --rmi local 
+```
+Omit the `-v` to keep your database volume.
 
-https://hub.docker.com
-https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/
-https://12factor.net/
+### More Resources and Reading
+[https://hub.docker.com](https://hub.docker.com)  
+[https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/)  
+[https://12factor.net/](https://12factor.net/)  
