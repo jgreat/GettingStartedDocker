@@ -285,7 +285,7 @@ docker run -d -p 127.0.0.1:80:80 --name web nginx
 
 Connect with your browser to [http://127.0.0.1](http://127.0.0.1). You should see the default nginx page.
 
-**Clean Up**
+**Clean Up**  
 Remove the running container using the name we provided
 ```
 docker rm -f web
@@ -306,11 +306,11 @@ docker run -d -p 127.0.0.1:80:80 -v c:/Users/jgreat/git/GettingStartedDocker/ngi
 
 Connect with your browser to [http://127.0.0.1](http://127.0.0.1). You should see the new page.
 
-**Troubleshooting**
+**Troubleshooting**  
 * Did you turn on Shared Volumes in the Docker-For-... Settings?
 * Did you use the correct path?
 
-**Clean Up**
+**Clean Up**  
 Remove the running container using the name we provided
 ```
 docker rm -f web
@@ -374,22 +374,22 @@ Walk thorough of setting up the containers, database, volumes.
 * .vscode/launch.json
 * nodemon
 
-**Start up your application stack**
+**Start up your application stack**  
 ```
 docker-compose up
 ```
 
-**Connect the debuger**
+**Connect the debuger**  
 VSCode Debuger
 
-**Modify Code**
+**Modify Code**  
 Watch nodemon pick up changes and restart.
 
 ### Destroy your application stack
 Stop containers, remove volumes and local images.
 
 ```
-docker-compose stop -v --rmi local 
+docker-compose down -v --rmi local 
 ```
 Omit the `-v` to keep your database volume.
 
