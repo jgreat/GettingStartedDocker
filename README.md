@@ -298,13 +298,20 @@ Lets add our custom index.html file with a shared volume.
 
 Docker requires a Fully Qualified Path when specifying your volume. Your `-v` option is going to vary from mine.
 
+**Windows Fully Qualified Path (forward slash, not backslash)**
 ```
 docker run -d -p 127.0.0.1:80:80 -v c:/Users/jgreat/git/GettingStartedDocker/nginx/html:/usr/share/nginx/html --name web nginx
 ```
 * `-v c:/Users/jgreat/git/GettingStartedDocker/nginx/html:/usr/share/nginx/html`
     * `/localhost/file:/container/destination`
 
-Connect with your browser to [http://127.0.0.1](http://127.0.0.1). You should see the new page.
+Connect with your browser to [http://127.0.0.1](http://127.0.0.1). You should see the new page.  
+
+**OSX or Linux**
+Run from inside the html directory.  Use the pwd command to specify your current directory.
+```
+docker run -d -p 127.0.0.1:80:80 -v $(pwd):/usr/share/nginx/html --name web nginx
+```
 
 **Troubleshooting**  
 * Did you turn on Shared Volumes in the Docker-For-... Settings?
