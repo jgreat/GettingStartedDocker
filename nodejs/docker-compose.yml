@@ -1,9 +1,10 @@
-version: "2"
+version: "3"
 
 services:
   web:
     build: .
-    command: nodemon -L --watch src --inspect=0.0.0.0:5858
+    command: nodemon -L --exitcrash --watch src --inspect=0.0.0.0:5858
+    restart: always
     volumes:
       - .:/app
     ports:
